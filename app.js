@@ -13,7 +13,7 @@ app.configure(function() {
 	app.use(express.session({ secret: "keyboard cat",
 			store: express.session.MemoryStore({ reapInterval: 60000 })
 		}));
-	app.use(express.csrf());
+	//app.use(express.csrf());
 	app.use(app.router);
 	app.use(express.static(__dirname + "/public"));
 });
@@ -35,65 +35,10 @@ app.dynamicHelpers({
 // routing
 app.get('/', routes.index);
 
-// user
-app.get("/user", routes.user);
-app.post("/user", routes.user);
-app.put("/user", routes.user);
-app.delete("/user", routes.user);
-
-// course
-app.get("/course", routes.course);
-app.post("/course", routes.course);
-app.put("/course", routes.course);
-app.delete("/course", routes.course);
-
-// file
-app.get("/file", routes.file);
-app.post("/file", routes.file);
-app.put("/file", routes.file);
-app.delete("/file", routes.file);
-
-// tag
-app.get("/tag", routes.tag);
-app.post("/tag", routes.tag);
-app.put("/tag", routes.tag);
-app.delete("/tag", routes.tag);
-
-// studygroup
-app.get("/studygroup", routes.studygroup);
-app.post("/studygroup", routes.studygroup);
-app.put("/studygroup", routes.studygroup);
-app.delete("/studygroup", routes.studygroup);
-
-// resource
-app.get("/resource", routes.resource);
-app.post("/resource", routes.resource);
-app.put("/resource", routes.resource);
-app.delete("/resource", routes.resource);
-
-// like
-app.get("/like", routes.like);
-app.post("/like", routes.like);
-app.put("/like", routes.like);
-app.delete("/like", routes.like);
-
 // question
-app.get("/question", routes.question);
-app.post("/question", routes.question);
-app.put("/question", routes.question);
-app.delete("/question", routes.question);
-
-// answer
-app.get("/answer", routes.answer);
-app.post("/answer", routes.answer);
-app.put("/answer", routes.answer);
-app.delete("/answer", routes.answer);
-
-// comment
-app.get("/comment", routes.comment);
-app.post("/comment", routes.comment);
-app.put("/comment", routes.comment);
-app.delete("/comment", routes.comment);
+app.get("/question/:id", routes.question); // get question by id
+app.put("/question/:id", routes.question); // update question by id
+app.delete("/question/:id", routes.question); // update question by id
 
 exports.server = app
 

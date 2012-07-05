@@ -7,32 +7,30 @@ var queryES = require('./queryES.js');
 var question = require('./../models/question.js');
 
 exports.index = function(request, response) {
-	response.render('index', { title: "Homepage", username: checkAuth(request), _csrf: request.session_csrf });
+	response.render('index', { title: "Homepage" });
 }
 
 exports.question = function(request, response) {
-	if (request.headers['content-type'] === 'application/json') {
+	if (request.headers['content-type'].indexOf('application/json') !== -1) {
+		var question_id = request.params.id;
+		var questionType = request.body.questionType;
+		
 		if (request.method === "GET") {
-			var username = request.body.id;
-			
-			response.writeHead(501, { 'Content-Type': 'application/json' });
-			response.end(JSON.stringify({ message: 'not implemented' }));
-			
-		} else if (request.method === "POST") {
-		
-			response.writeHead(501, { 'Content-Type': 'application/json' });
-			response.end(JSON.stringify({ message: 'not implemented' }));
-			
+			queryES.getQuestion(question_id, questionType, function(result) {
+				response.writeHead(200, { 'Content-Type': 'application/json' });
+				response.end(JSON.stringify({ errorcode: 0, question: result }));
+			});
 		} else if (request.method === "PUT") {
-		
-			response.writeHead(501, { 'Content-Type': 'application/json' });
-			response.end(JSON.stringify({ message: 'not implemented' }));
-			
+			var questionBody = request.body.questionBody;
+			queryES.updateQuestion(question_id, questionBody, questionType, function(result) {
+				response.writeHead(200, { 'Content-Type': 'application/json' });
+				response.end(JSON.stringify({ errorcode: 0 }));
+			});
 		} else if (request.method === "DELETE") {
-		
-			response.writeHead(501, { 'Content-Type': 'application/json' });
-			response.end(JSON.stringify({ message: 'not implemented' }));
-			
+			queryES.deleteQuestion(question_id, questionType, function(result) {
+				response.writeHead(200, { 'Content-Type': 'application/json' });
+				response.end(JSON.stringify({ errorcode: 0 }));
+			});
 		}
 	}
 }
